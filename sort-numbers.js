@@ -6,6 +6,7 @@ export class SortNumbers{
 
     constructor(myArray){
       this.myArray = myArray;
+      // create CheckIsValid object to check if provided array is valid.
       this.myArrayValid = new CheckIsValid(myArray);
     }
 
@@ -24,7 +25,7 @@ export class SortNumbers{
     #arrayLengthIsTwo(order){
 
       const smallArray = []
-      // jei array tik is dvieju skaiciu, pagal pasirinktą order įdedu reikšmes ir grąžinu.
+      // if array length = 2, returning array depending on which order is picked.
       if(this.#checkOrder(order)){
         if (this.myArray[0] < this.myArray[1]){
           smallArray.push(this.myArray[0]);
@@ -53,8 +54,8 @@ export class SortNumbers{
 
     #arrayLengthMoreThanTwoAsc(order){
 
-      // pasiemu pradine array pagal pasirinkta order.
-      // kadangi zinau, kad array length > 2, pradedu counta nuo 2.
+      // initiating start array, from #arrayLengthIsTwo method.
+      // since I know that array length is 2 starting count from 2.
 
       let finalArrayAsc = this.#arrayLengthIsTwo(order);
       const arrayLength = this.myArray.length;
@@ -64,52 +65,51 @@ export class SortNumbers{
       let tempArray;
 
 
-      // sukti while loop, kol bus praeiti visi array skaiciai.
+      // while loop, untill all numbers in an array starting from index 2 will be checked.
       while(count !== arrayLength){
 
-        // susikuriau internal count, kad galeciau tikrinti, kuris skaicius surikiuotos array tikrinamas.
+        // internal count to follow which number, before currentNumber is checked.
         let internalCount = count - 1;
         currentNumber = this.myArray[count];
-        // final length, kad zinoti kiek skaiciu isimti is atnaujintos array.
+        // finaLength, so I could know how many numbers to crop from array.
         const finalLength = finalArrayAsc.length;
 
-        // leidziam for loop per atnaujinta array.
+        // for loop until all numbers is checked or space between higher and smaller number is found.
         for(let i = 0; i < count; i++){
 
-          // paskutinis newArray skaicius mazesnis, uz tikrinama skaiciu, skaiciu is kart pridedam i pabaiga.
+          // if finallArray last number is smaller than currentNumber, current number is pushed to finalArray.
           if(currentNumber >= finalArrayAsc[count - 1]){
             finalArrayAsc.push(currentNumber);
             break;
           }
-          // jei praeina visas ciklas ir neatsiranda nei vienas mazesnis skaicius, tikrinama skaiciu dedam i prieki.
+          // if smaller numbers is not found, current number is added at the beginning of an array.
           else if(internalCount === 0){
-            // tempArray = [];
             finalArrayAsc.unshift(currentNumber);
             break;
           }
           
-          // jei paskutinis tikrintas skaicius didesnis uz currentNumber, o ankstesnis eileje didesnis,
-          // nupjaunam visus didesnius skaicius i tempArray (uodega veliau pridesim prie final array)
+          // If space between higher and smaller number is found, need to add current number in between.
+          // All higher number we add to temp array (later it will be tail of finalArray).
           else if((currentNumber <= finalArrayAsc[internalCount]) && 
                   (currentNumber >= finalArrayAsc[internalCount-1])){
             tempArray = finalArrayAsc.splice(internalCount);
 
-          // istrinam visa uodega > skaicius didesnius uz current number,
-          // o current number pushinam i paskutine vieta.
+          // Removing tail with higher numbers from finalArray
+          // and adding currentNumber at the enf of finalArray.
             for(let i = internalCount; i < finalLength; i++){
               finalArrayAsc.splice(i, 1);
             }
 
             finalArrayAsc.push(currentNumber);
           
-          // prie modifikuoto final array pridedam uodega.
+          // returning tail for Final array.
             tempArray.forEach((num) => {
               finalArrayAsc.push(num);
             })
             break;
           }
 
-          // jei netenkina nei vienos salygos, internal count minusuojam ir ziurim i ankstesni skaiciu masyve.
+          // if none of conditions were met, checking previous number in an array.
           else{
             internalCount--;
           }
@@ -128,41 +128,42 @@ export class SortNumbers{
 
       while(count !== arrayLength){
 
-        // internal count prilyginu nuliui, nes visada tikrinamas bus pradedamas nuo pirmo skaiciaus masyve.
+        // internal count = 0, since we will begin checking from first number in an array
         let internalCount = 0;
         let currentNumber = this.myArray[count];
         const finalLength = finalArrayDesc.length;
         let tempArray = [];
         for(let i = 0; i < count; i++){
           
-          // jei currentNumber didesnis arba lygus pirmam skaiciui masyve, is kart shiftinu i prieki.
+          // if currentNumber is higher or eq compared to first number in an array, adding current number  at the beginning.
           if(currentNumber >= finalArrayDesc[0]){
             finalArrayDesc.unshift(currentNumber);
             break;
           }
 
-          // jei skaicius didesnis uz tikrinama ir mazesnis uz pries tai buvusi:
+          // if currentNumber in between higher and smaller numbers
           else if((currentNumber >= finalArrayDesc[internalCount]) && 
                   (currentNumber <= finalArrayDesc[internalCount-1])){
           
-          // sukuriu tempArray su visais skaiciais didesniais uz current number
-          // eiles tvarka asc, kad veliau shiftinant skaiciai butu pridedami descending order.
+          // temp array is created to store higher numbers than current number
+          // order is asc, so later when pushing to finall array, descending order would be provided
             for(let i = internalCount-1; i >= 0; i--){
               tempArray.push(finalArrayDesc[i]);
             }
 
-          // modifikuoju array, kad liktu tik mazesni skaiciai, o current number shiftinu i prieki.  
+          // finalArray modification, so only smaller numbers than currentNumber would stay
+          // and shifting currentNumber at the beginning.
             finalArrayDesc = finalArrayDesc.splice(internalCount);
             finalArrayDesc.unshift(currentNumber);
           
-          // pridedu visus skaicius prie final array
+          // adding head of higher number to finalArray
             tempArray.forEach((num) => {
               finalArrayDesc.unshift(num);
             })
             break;
           }
 
-          // jei patikrinti visi skaiciai, currentNumber stumiu i gala.
+          // if all numbers are checked, currentNumbers goes to the end of finalArray.
           else if((internalCount + 1) === finalLength){
             finalArrayDesc.push(currentNumber);
             break;
@@ -184,20 +185,19 @@ export class SortNumbers{
 
       let newArray = [];
 
-      // jei array length 0 arba 1, tiesiog grazinu array.
+      // if array length is 0 or 1, returning original array.
       if(this.myArrayValid.checkLength() === 0){
         return (this.myArray);
       }
-      // jei 2, tada uztenka, arrayLenthIstwo metodo.
+      // if array length is 2, applying #arrayLengthIsTwo() method and returning newArray.
       else if(this.myArrayValid.checkLength() === 2){
-        newArray = this.#arrayLengthIsTwo(order);
-        return (newArray);
+        return this.#arrayLengthIsTwo(order);
       }
-      // jei pasirinkta asc
+      // if asc order is picked
       else if(order === "asc"){
         return this.#arrayLengthMoreThanTwoAsc(order);
       }
-      // jei pasirinkta desc
+      // if descending order is picked
       else{
         return this.#arrayLengthMoreThanTwoDesc(order);
       }

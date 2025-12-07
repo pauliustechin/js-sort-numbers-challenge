@@ -23,7 +23,7 @@ export class CheckIsValid{
 
       if(this.#checkIsArray()){
         this.myArray.forEach((num) => {
-          // Math.floor(), kad patikrinti ir nesveikus sk.
+          // Math.floor(), to include doubles.
           if(Number.isInteger(Math.floor(num))){
           }
           else{
