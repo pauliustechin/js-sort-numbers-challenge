@@ -51,10 +51,12 @@ export class SortNumbers{
       }
     }
 
-    #arrayLengthMoreThanTwoAsc(){
+    #arrayLengthMoreThanTwoAsc(order){
 
+      // pasiemu pradine array pagal pasirinkta order.
       // kadangi zinau, kad array length > 2, pradedu counta nuo 2.
-      let finalArrayAsc = this.#arrayLengthIsTwo("asc");
+
+      let finalArrayAsc = this.#arrayLengthIsTwo(order);
       const arrayLength = this.myArray.length;
       let count = 2;
       
@@ -117,25 +119,87 @@ export class SortNumbers{
       return finalArrayAsc;
     }
 
+  #arrayLengthMoreThanTwoDesc(order){
+
+      let finalArrayDesc = this.#arrayLengthIsTwo(order);
+      const arrayLength = this.myArray.length;
+      let count = 2;
+      
+
+      while(count !== arrayLength){
+
+        // internal count prilyginu nuliui, nes visada tikrinamas bus pradedamas nuo pirmo skaiciaus masyve.
+        let internalCount = 0;
+        let currentNumber = this.myArray[count];
+        const finalLength = finalArrayDesc.length;
+        let tempArray = [];
+        for(let i = 0; i < count; i++){
+          
+          // jei currentNumber didesnis arba lygus pirmam skaiciui masyve, is kart shiftinu i prieki.
+          if(currentNumber >= finalArrayDesc[0]){
+            finalArrayDesc.unshift(currentNumber);
+            break;
+          }
+
+          // jei skaicius didesnis uz tikrinama ir mazesnis uz pries tai buvusi:
+          else if((currentNumber >= finalArrayDesc[internalCount]) && 
+                  (currentNumber <= finalArrayDesc[internalCount-1])){
+          
+          // sukuriu tempArray su visais skaiciais didesniais uz current number
+          // eiles tvarka asc, kad veliau shiftinant skaiciai butu pridedami descending order.
+            for(let i = internalCount-1; i >= 0; i--){
+              tempArray.push(finalArrayDesc[i]);
+            }
+
+          // modifikuoju array, kad liktu tik mazesni skaiciai, o current number shiftinu i prieki.  
+            finalArrayDesc = finalArrayDesc.splice(internalCount);
+            finalArrayDesc.unshift(currentNumber);
+          
+          // pridedu visus skaicius prie final array
+            tempArray.forEach((num) => {
+              finalArrayDesc.unshift(num);
+            })
+            break;
+          }
+
+          // jei patikrinti visi skaiciai, currentNumber stumiu i gala.
+          else if((internalCount + 1) === finalLength){
+            finalArrayDesc.push(currentNumber);
+            break;
+          }
+
+          else{
+            internalCount++;
+          }
+        }
+        count++;
+      }
+      return finalArrayDesc;
+    }
 
 
 
-    sortSmall(order){
+
+    sortNumbers(order){
 
       let newArray = [];
 
       // jei array length 0 arba 1, tiesiog grazinu array.
       if(this.myArrayValid.checkLength() === 0){
-        console.log(this.myArray);
-        // return this.myArray;
+        return (this.myArray);
       }
-
+      // jei 2, tada uztenka, arrayLenthIstwo metodo.
       else if(this.myArrayValid.checkLength() === 2){
         newArray = this.#arrayLengthIsTwo(order);
-        console.log(newArray);
+        return (newArray);
       }
+      // jei pasirinkta asc
+      else if(order === "asc"){
+        return this.#arrayLengthMoreThanTwoAsc(order);
+      }
+      // jei pasirinkta desc
       else{
-        this.#arrayLengthMoreThanTwoAsc();
+        return this.#arrayLengthMoreThanTwoDesc(order);
       }
     }
 }

@@ -1,11 +1,13 @@
-import { CheckIsValid } from './check-validation.js';
 import { SortNumbers } from './sort-numbers.js';
 
 "use strict";
 
-const numArray = [2, 5, 3, 4, 3, 2, 2, 1, 3, 9, 8, 6];
-const num = 1;
+const numArray = [2, 5, 3, 5, 2, 9, 8, 6];
 
 const sortNums = new SortNumbers(numArray);
 
-sortNums.sortSmall("desc");
+const newArrayAsc = sortNums.sortNumbers("asc");
+const newArrayDesc = sortNums.sortNumbers("desc");
+
+console.log("Array numbers in ascending order: [" + newArrayAsc + "]");
+console.log("Array numbers in descending order: [" + newArrayDesc + "]");
