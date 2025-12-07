@@ -1,0 +1,51 @@
+"use strict";
+
+export class CheckIsValid{
+
+    constructor(myArray){
+      this.myArray = myArray;
+    }
+
+    #checkIsArray(){
+
+      if(this.myArray instanceof Array){
+        return true;
+      } 
+      else{
+        throw new Error("You have to provide an Array")
+      }
+    }
+
+
+    #checkIsNumArray(){
+
+      const isNumArray = true;
+
+      if(this.#checkIsArray()){
+        this.myArray.forEach((num) => {
+          // Math.floor(), kad patikrinti ir nesveikus sk.
+          if(Number.isInteger(Math.floor(num))){
+          }
+          else{
+            throw new Error("All values in an Array must be numbers.");
+          }
+        });
+      }
+      return isNumArray;
+    }
+
+    checkLength(){
+      if (this.#checkIsNumArray()){
+          switch(true){
+            case (this.myArray.length <= 1):
+              return 0;
+            case (this.myArray.length === 2):
+              return 2;
+            case (this.myArray.length > 2):
+              return 3;
+            default:
+              console.log("Something went wrong");
+          }
+      }
+    }
+}
