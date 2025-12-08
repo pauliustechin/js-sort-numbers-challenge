@@ -34,18 +34,7 @@ export class CheckIsValid{
       return isNumArray;
     }
 
-    checkLength(){
-      if (this.#checkIsNumArray()){
-          switch(true){
-            case (this.myArray.length <= 1):
-              return 0;
-            case (this.myArray.length === 2):
-              return 2;
-            case (this.myArray.length > 2):
-              return 3;
-            default:
-              console.log("Something went wrong");
-          }
-      }
+    isValid(){
+      this.#checkIsNumArray();
     }
 }

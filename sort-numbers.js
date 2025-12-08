@@ -178,19 +178,16 @@ export class SortNumbers{
       return finalArrayDesc;
     }
 
+        sortNumbers(order){
+      // checking if an array is valid
+      this.myArrayValid.isValid();
 
-
-
-    sortNumbers(order){
-
-      let newArray = [];
-
-      // if array length is 0 or 1, returning original array.
-      if(this.myArrayValid.checkLength() === 0){
+      // if if length of an array is 0 or 1, returning original array
+      if(this.myArray.length === 0 || this.myArray.length === 1){
         return (this.myArray);
       }
-      // if array length is 2, applying #arrayLengthIsTwo() method and returning newArray.
-      else if(this.myArrayValid.checkLength() === 2){
+      // if length of an array is 2, applying #arrayLengthIsTwo() method and returning newArray.
+      else if(this.myArray.length === 2){
         return this.#arrayLengthIsTwo(order);
       }
       // if asc order is picked
@@ -202,4 +199,6 @@ export class SortNumbers{
         return this.#arrayLengthMoreThanTwoDesc(order);
       }
     }
+
+
 }
