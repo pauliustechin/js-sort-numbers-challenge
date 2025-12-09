@@ -4,37 +4,38 @@ export class CheckIsValid{
 
     constructor(myArray){
       this.myArray = myArray;
+      // checking validation of CheckIsValid object:
+      this.#checkIsArray(this.myArray);
+      this.#checkIsNumArray(this.myArray);
     }
 
-    #checkIsArray(){
-
-      if(this.myArray instanceof Array){
-        return true;
-      } 
-      else{
-        throw new Error("You have to provide an Array")
+    #checkIsArray(myArray){
+      try{
+        if(!(myArray instanceof Array)){
+          throw new TypeError("You have to provide an Array.");
+        } 
+      }
+      catch (TypeError){
+        console.error(TypeError.name);
+        console.error(TypeError.message);
+        // throwing an error back so user could provide an array.
+        throw TypeError;
       }
     }
 
+    #checkIsNumArray(myArray){
 
-    #checkIsNumArray(){
-
-      const isNumArray = true;
-
-      if(this.#checkIsArray()){
-        this.myArray.forEach((num) => {
-          // Math.floor(), to include doubles.
-          if(Number.isInteger(Math.floor(num))){
-          }
-          else{
-            throw new Error("All values in an Array must be numbers.");
-          }
-        });
+      try{
+      myArray.forEach((num) => {
+        // Math.floor(), to include doubles.
+        if(!(Number.isInteger(Math.floor(num)))){
+          throw new TypeError('Some values in an array is not a numbers!\nDepending on picked order strings will be placed at the beginning ("asc") or at the end ("desc").');
+        }
+      });
       }
-      return isNumArray;
-    }
-
-    isValid(){
-      this.#checkIsNumArray();
+      catch(TypeError){
+        console.error(TypeError.name);
+        console.error(TypeError.message); 
+      }
     }
 }

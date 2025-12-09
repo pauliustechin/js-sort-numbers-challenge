@@ -11,16 +11,25 @@ export class SortNumbers{
     }
 
     #checkOrder(order){
-      if(order.toLowerCase() === "asc"){
-        return true;
+      try{
+        if(order.toLowerCase() === "asc"){
+          return true;
+        }
+        else if(order.toLowerCase() === "desc"){
+          return false;
+        }
+        else{
+          throw new ReferenceError('Order must be ascending("asc"), or descending ("desc").')
+        }
       }
-      else if(order.toLowerCase() === "desc"){
-        return false;
-      }
-      else{
-        throw new Error('Order must be ascending("asc"), or descending ("desc").')
+      catch(ReferenceError){
+          console.error(ReferenceError.name);
+          console.error(ReferenceError.message);
+          // throwing an error back so user could provide correct order.
+          throw ReferenceError;
       }
     }
+
 
     #arrayLengthIsTwo(order){
 
@@ -179,10 +188,8 @@ export class SortNumbers{
     }
 
         sortNumbers(order){
-      // checking if an array is valid
-      this.myArrayValid.isValid();
 
-      // if if length of an array is 0 or 1, returning original array
+      // if length of an array is 0 or 1, returning original array
       if(this.myArray.length === 0 || this.myArray.length === 1){
         return (this.myArray);
       }
