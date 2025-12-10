@@ -4,7 +4,7 @@ export class CheckIsValid{
 
     constructor(myArray){
       this.myArray = myArray;
-      // checking validation of CheckIsValid object:
+      // validation check when initiating new instance of CheckIsValid class.
       this.#checkIsArray(this.myArray);
       this.#checkIsNumArray(this.myArray);
     }
@@ -18,7 +18,7 @@ export class CheckIsValid{
       catch (TypeError){
         console.error(TypeError.name);
         console.error(TypeError.message);
-        // throwing an error back so user could provide an array.
+        // throwing an error back, so user could provide an array.
         throw TypeError;
       }
     }
